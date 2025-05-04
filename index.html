@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Toa.......তোমার জন্য একটি কার্ড</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #7f1d1d, #92400e);
+      overflow: hidden;
+    }
+
+    .card {
+      perspective: 1200px;
+    }
+    .card-inner {
+      transform-style: preserve-3d;
+      transition: transform 1s ease-in-out;
+    }
+    .card:hover .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      backface-visibility: hidden;
+    }
+    .card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Sparkling hearts */
+    .hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .hearts span {
+      position: absolute;
+      display: block;
+      color: rgba(255, 255, 255, 0.3);
+      animation: float 10s linear infinite;
+      font-size: 1.2rem;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100%) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-200%) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen text-white relative">
+
+  <!-- Floating hearts -->
+  <div class="hearts">
+    <span style="left: 10%; animation-delay: 0s;">💖</span>
+    <span style="left: 30%; animation-delay: 2s;">💗</span>
+    <span style="left: 50%; animation-delay: 4s;">💕</span>
+    <span style="left: 70%; animation-delay: 1s;">💓</span>
+    <span style="left: 90%; animation-delay: 3s;">💘</span>
+  </div>
+
+  <!-- Card -->
+  <div class="card w-96 h-64 relative shadow-2xl rounded-2xl z-10">
+    <div class="card-inner w-full h-full absolute">
+      <div class="card-front bg-gradient-to-tr from-amber-500 to-rose-500 rounded-2xl p-6 w-full h-full flex items-center justify-center text-center text-3xl font-extrabold tracking-wide shadow-md">
+        Toa..... শুধু তোমার জন্য 💝
+      </div>
+      <div class="card-back bg-white text-gray-900 rounded-2xl p-6 w-full h-full flex flex-col justify-center shadow-inner">
+        <p class="font-bold text-lg">তুমি,</p>
+        <p class="mt-2 text-sm leading-relaxed font-medium">
+          তোমার চোখের দিকে তাকালেই মনটা কেমন যেন হয়ে যায়।<br>
+          হাসি নয়, শুধু তোমার চাওয়াতেই সব কথা বলা হয়ে যায়।<br>
+          আমি তোমায় খুব মিস করি... প্রতিদিন, প্রতিটি মুহূর্তে।<br>
+          কেবল তোমার কথা ভাবলেই মনটা নরম হয়ে যায়।
+        </p>
+        <p class="mt-4 font-bold text-base text-rose-600">খুব মিস করি তোমায় 💔</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
