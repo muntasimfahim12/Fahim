@@ -2,124 +2,255 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Jannat... Special Card</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <style>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/tilt.js@1.2.1/dest/tilt.jquery.min.js"></script> <style>
+    /* Premium Red Deep Background */
     body {
-      background: radial-gradient(circle at center, #2e1065, #0f172a);
+      background: radial-gradient(circle at center, #7f1d1d, #2e1065 60%, #1a1a1a 100%);
       font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
+      margin: 0;
+      padding: 0;
     }
 
+    /* Elegant Script Fonts */
+    .cursive-signature { font-family: 'Great Vibes', cursive; color: #ffeb3b; }
     .cursive { font-family: 'Dancing Script', cursive; }
+    .gold-highlight { color: #facc15; }
+    
+    /* Bangla Text Theme - Deep Maroon on Glass */
+    .card-back p {
+      color: #991b1b; /* deep maroon for context */
+    }
 
-    /* Premium Glass Effect */
-    .premium-glass {
-      background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(20px);
+    /* Premium Holographic Glassmorphism */
+    .premium-glass-holographic {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(25px) saturate(200%);
+      -webkit-backdrop-filter: blur(25px) saturate(200%);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border-radius: 28px;
+      box-shadow: 
+        0 15px 30px -10px rgba(0, 0, 0, 0.8),
+        inset 0 0 100px -30px rgba(127, 29, 29, 0.1),
+        inset 0 0 10px rgba(255,255,255,0.05);
+      overflow: hidden;
     }
 
-    .card {
-      perspective: 2000px;
+    /* Refined Animated Border Gradient - Gold/Pink to Maroon/Deep Purple */
+    .border-gradient-premium {
+      position: relative;
+    }
+    .border-gradient-premium::before {
+      content: '';
+      position: absolute;
+      top: -3px; left: -3px; right: -3px; bottom: -3px;
+      border-radius: 31px;
+      z-index: -1;
+      background: linear-gradient(135deg, #facc15, #f472b6 40%, #7f1d1d, #4c1d95);
+      animation: border-rotate 6s linear infinite;
     }
 
-    .card-inner {
+    @keyframes border-rotate {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    /* 3D Container */
+    .card-perspective {
+      perspective: 3000px;
+    }
+
+    /* Card Inner with Tilt and Flip */
+    .card-content-wrapper {
+      position: relative;
+      transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
       transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateZ(0); /* Fix mobile centering */
     }
 
-    .card.flipped .card-inner {
+    .card-perspective.flipped .card-content-wrapper {
       transform: rotateY(180deg);
     }
 
+    /* Desktop Tilt Effect (if available via tilt.js) */
+    .card-js-tilt {
+      transform-style: preserve-3d;
+    }
+
+    /* Front/Back Panels */
     .card-front, .card-back {
       backface-visibility: hidden;
-      border-radius: 24px;
+      -webkit-backface-visibility: hidden;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
     }
 
     .card-back {
       transform: rotateY(180deg);
+      z-index: 2; /* Ensure back is on top when flipped */
     }
 
-    /* Animated Border Gradient */
-    .border-gradient {
-      position: relative;
-      background: linear-gradient(white, white) padding-box,
-                  linear-gradient(135deg, #f472b6, #818cf8) border-box;
-      border: 2px solid transparent;
+    /* Mobile Shake Hint (instead of tilt) */
+    @keyframes mobile-hint {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-5px) rotate(-1deg); }
+      40% { transform: translateX(5px) rotate(1deg); }
+      60% { transform: translateX(-3px) rotate(-0.5deg); }
+      80% { transform: translateX(3px) rotate(0.5deg); }
     }
 
-    /* Floating particles animation */
+    @media (max-width: 768px) {
+      .card-js-tilt {
+        animation: mobile-hint 4s ease-in-out infinite;
+        animation-delay: 2s;
+      }
+      .card-perspective.flipped .card-js-tilt {
+        animation: none;
+      }
+    }
+
+    /* Premium Gold/Red Text Gradient */
+    .gold-red-text {
+      background: linear-gradient(135deg, #facc15 0%, #ffeb3b 30%, #f472b6 60%, #7f1d1d 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    /* Floating Heart/Sparkle Particles */
     .hearts span {
       position: absolute;
-      animation: float 8s ease-in infinite;
+      pointer-events: none;
       opacity: 0;
+      animation: float-premium 10s ease-in infinite;
     }
 
-    @keyframes float {
-      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      20% { opacity: 0.6; }
-      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    @keyframes float-premium {
+      0% { transform: translateY(110vh) translateX(var(--rnd-x)) scale(0.6) rotate(var(--rnd-r)); opacity: 0; }
+      15% { opacity: 1; }
+      100% { transform: translateY(-20vh) translateX(var(--rnd-x-end)) scale(1.1) rotate(calc(var(--rnd-r) + 360deg)); opacity: 0; }
     }
+
+    /* Fix to force absolute centering */
+    .abs-center {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%; /* For small screens */
+      max-width: 380px; /* Base card width */
+    }
+
   </style>
 </head>
 
-<body class="flex items-center justify-center min-h-screen text-white p-6">
+<body class="min-h-screen">
 
-  <div class="hearts absolute inset-0 overflow-hidden pointer-events-none">
-    <span style="left:10%; animation-delay:0s;">✨</span>
-    <span style="left:30%; animation-delay:2s;">💖</span>
-    <span style="left:50%; animation-delay:4s;">❤️</span>
-    <span style="left:70%; animation-delay:1s;">🌸</span>
-    <span style="left:90%; animation-delay:3s;">✨</span>
+  <div class="hearts absolute inset-0 overflow-hidden z-0">
+    <span style="left:5%; --rnd-x: -20px; --rnd-x-end: 20px; --rnd-r: -15deg; animation-delay:0s; font-size: 1.5rem;">✨</span>
+    <span style="left:15%; --rnd-x: 10px; --rnd-x-end: -10px; --rnd-r: 10deg; animation-delay:2s; font-size: 1.8rem;">💖</span>
+    <span style="left:35%; --rnd-x: 30px; --rnd-x-end: 0px; --rnd-r: -25deg; animation-delay:4s; font-size: 2rem;">❤️</span>
+    <span style="left:55%; --rnd-x: -10px; --rnd-x-end: -30px; --rnd-r: 20deg; animation-delay:1s; font-size: 1.6rem;">✨</span>
+    <span style="left:75%; --rnd-x: 5px; --rnd-x-end: 15px; --rnd-r: -10deg; animation-delay:3s; font-size: 1.9rem;">💘</span>
+    <span style="left:90%; --rnd-x: -25px; --rnd-x-end: 5px; --rnd-r: 30deg; animation-delay:5s; font-size: 1.7rem;">✨</span>
+    <span style="left:20%; --rnd-x: 0px; --rnd-x-end: -20px; --rnd-r: 5deg; animation-delay:7s; font-size: 1.8rem;">❤️</span>
   </div>
 
-  <div onclick="flipCard()" class="card w-full max-w-sm h-[450px] cursor-pointer relative z-10">
-    <div id="cardInner" class="card-inner w-full h-full">
+  <div onclick="flipCard()" class="card-perspective abs-center h-[520px] max-h-[90vh] cursor-pointer z-10 p-0.5">
+    
+    <div id="tiltWrapper" class="card-js-tilt card-content-wrapper w-full h-full" data-tilt data-tilt-max="7" data-tilt-speed="400" data-tilt-perspective="3000" data-tilt-glare data-tilt-max-glare="0.1">
 
-      <div class="card-front premium-glass border-gradient w-full h-full flex flex-col items-center justify-center text-center p-8">
-        <div class="text-5xl mb-6 animate-bounce">🎁</div>
-        <h1 class="cursive text-4xl text-pink-400 mb-2">Happy Birthday</h1>
-        <h2 class="text-2xl font-light tracking-widest text-white/90 uppercase">Jannat</h2>
-        <p class="mt-8 text-xs text-white/40 tracking-tighter italic">Tap to open the magic</p>
+      <div class="card-front border-gradient-premium premium-glass-holographic w-full h-full flex flex-col items-center justify-center text-center p-10">
+        <div class="text-7xl mb-8 animate-pulse">🎁</div>
+        
+        <h1 class="cursive text-5xl gold-red-text mb-3 leading-tight">Happy Birthday</h1>
+        
+        <div class="flex items-center gap-3 mt-4 mb-2">
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent to-pink-400"></div>
+            <h2 class="text-3xl font-light tracking-widest text-white/95 uppercase">Jannat</h2>
+            <div class="w-16 h-0.5 bg-gradient-to-l from-transparent to-pink-400"></div>
+        </div>
+        
+        <p class="mt-10 text-xs text-white/50 tracking-wider italic font-light">Tap to reveal the magic</p>
+        
+        <div class="absolute inset-0 z-[-1] bg-gradient-to-br from-white/10 to-transparent"></div>
       </div>
 
-      <div class="card-back premium-glass border-gradient w-full h-full flex flex-col p-8 overflow-y-auto">
-        <h3 class="cursive text-3xl text-pink-400 mb-4">Hey Jannat,</h3>
+      <div class="card-back border-gradient-premium premium-glass-holographic w-full h-full flex flex-col p-10 overflow-y-auto">
+        <h3 class="cursive text-4xl text-pink-400 mb-6 font-semibold">Hey Jannat,</h3>
         
-        <div class="space-y-4 text-sm leading-relaxed text-gray-200">
+        <div class="space-y-6 text-base leading-relaxed">
           <p>Happy Birthday! 🎂✨</p>
           
           <p>Aajke honestly ekta kotha boltei hobe... Ami Instagram-e tomake dekhlam — pura random bhabei... kintu chokh ta ekbar giye aar sorate parlam na 😅</p>
           
-          <p class="text-pink-300 font-semibold italic">Karon tumi onek sundor... like seriously 💖</p>
+          <p class="gold-highlight font-semibold italic text-lg">Karon tumi onek sundor... like seriously 💖</p>
           
           <p>Don’t worry, eta awkward na... just ekta honest compliment 😊 Hope tumi ajker din ta onek enjoy korba 🎉</p>
           
           <p>Keep smiling like this... it suits you perfectly!</p>
         </div>
 
-        <div class="mt-auto pt-6 border-t border-white/10 flex justify-between items-end">
+        <div class="mt-auto pt-8 border-t border-white/10 flex justify-between items-end">
             <div>
-                <p class="text-[10px] text-white/40 uppercase tracking-widest">Sincerely,</p>
-                <p class="cursive text-2xl text-pink-400">Fahim</p>
+                <p class="text-[11px] text-white/50 uppercase tracking-widest">Sincerely,</p>
+                <p class="cursive-signature text-3xl">Fahim</p>
             </div>
-            <span class="text-2xl">💋</span>
+            <span class="text-3xl animate-pulse">💋</span>
         </div>
+
+        <div class="absolute inset-0 z-[-2] bg-maroon-950/20"></div>
       </div>
 
     </div>
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/tilt.js@1.2.1/dest/tilt.jquery.min.js"></script>
+
   <script>
-    function flipCard(){
-      document.querySelector('.card').classList.toggle('flipped');
+    // 1. Desktop Tilt Effect (using tilt.js for smoother control)
+    $(document).ready(function() {
+      const $tilt = $('.card-js-tilt').tilt({
+        maxTilt: 10,
+        perspective: 2000,
+        easing: "cubic-bezier(.03,.98,.52,.99)",
+        scale: 1.02,
+        speed: 800,
+        transition: true,
+        glare: true,
+        maxGlare: 0.2
+      });
+    });
+
+    // 2. Main Flip Function
+    function flipCard() {
+      const card = document.querySelector('.card-perspective');
+      const tiltWrapper = document.getElementById('tiltWrapper');
+      
+      card.classList.toggle('flipped');
+      
+      // When flipped, disable desktop tilt interaction temporarily
+      if (card.classList.contains('flipped')) {
+        $(tiltWrapper).tilt.destroy.call(tiltWrapper); 
+      } else {
+        // Re-enable if flipped back
+        const $tilt = $(tiltWrapper).tilt({
+          maxTilt: 10,
+          scale: 1.02,
+          speed: 800,
+          glare: true,
+          maxGlare: 0.2
+        });
+      }
     }
   </script>
 
