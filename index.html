@@ -9,30 +9,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
-    /* প্রিমিয়াম ব্যাকগ্রাউন্ড এবং স্ক্রলিং বন্ধ করা */
+    /* ১০০% ভিউপোর্ট হাইট ফিক্সড করা হয়েছে যাতে স্ক্রল না হয় */
     html, body {
-      height: 100%;
+      height: 100vh;
+      height: -webkit-fill-available;
       margin: 0;
       padding: 0;
       overflow: hidden;
       background: radial-gradient(circle at center, #1a1a2e, #0f0f1b, #000);
       font-family: 'Poppins', sans-serif;
+    }
+
+    /* ফ্লেক্সবক্স দিয়ে পারফেক্টলি মাঝখানে রাখা */
+    .screen-center {
       display: flex;
       align-items: center;
       justify-content: center;
+      height: 100vh;
+      width: 100vw;
     }
 
     .cursive { font-family: 'Dancing Script', cursive; }
 
-    /* গ্লাসি ইফেক্ট */
+    /* প্রিমিয়াম গ্লাসি ইফেক্ট */
     .premium-glass {
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.7);
     }
 
-    /* গ্লাসি টেক্সট লুক */
     .glassy-text {
       background: linear-gradient(135deg, #ffffff 30%, #f472b6 100%);
       -webkit-background-clip: text;
@@ -40,13 +47,13 @@
       filter: drop-shadow(0 0 10px rgba(244, 114, 182, 0.4));
     }
 
-    /* কার্ড কন্টেইনার */
+    /* কার্ড কন্টেইনার ফিক্স */
     .card-container {
-      width: 90%;
-      max-width: 350px;
-      height: 520px;
-      perspective: 2500px; /* গভীরতা বাড়ানো হয়েছে */
-      z-index: 10;
+      width: 85%;
+      max-width: 340px;
+      height: 550px;
+      perspective: 2500px;
+      position: relative;
     }
 
     .card-inner {
@@ -54,10 +61,9 @@
       width: 100%;
       height: 100%;
       transform-style: preserve-3d;
-      transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.1); /* স্মুথ সাইড ফ্লিপ */
+      transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.1);
     }
 
-    /* ডানদিক থেকে ফ্লিপ হওয়ার জন্য rotateY ব্যবহার */
     .card-container.flipped .card-inner {
       transform: rotateY(-180deg); 
     }
@@ -68,29 +74,33 @@
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      border-radius: 40px; /* আরও রাউন্ডেড এবং প্রিমিয়াম */
-      padding: 35px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      border-radius: 40px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
     }
 
     .card-back {
       transform: rotateY(180deg);
     }
 
-    /* প্রিমিয়াম অ্যানিমেটেড বর্ডার */
-    .border-anim {
-      position: relative;
+    /* ইমেইল বাটন স্টাইল */
+    .email-btn {
+      background: linear-gradient(135deg, rgba(244,114,182,0.2), rgba(129,140,248,0.2));
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 10px 20px;
+      border-radius: 15px;
+      color: #fff;
+      font-size: 13px;
+      text-align: center;
+      margin-top: 15px;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: block;
     }
-    .border-anim::after {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      border-radius: 40px;
-      padding: 2px;
-      background: linear-gradient(135deg, #f472b6, rgba(255,255,255,0.1), #818cf8);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask-composite: exclude;
-      pointer-events: none;
+    .email-btn:active {
+      transform: scale(0.95);
+      background: rgba(244,114,182,0.4);
     }
 
     /* ব্যাকগ্রাউন্ড পার্টিকেলস */
@@ -100,9 +110,9 @@
       opacity: 0;
     }
     @keyframes float {
-      0% { transform: translateY(110vh) translateX(0) rotate(0deg); opacity: 0; }
+      0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
       20% { opacity: 0.5; }
-      100% { transform: translateY(-10vh) translateX(50px) rotate(360deg); opacity: 0; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
@@ -112,48 +122,56 @@
   <div class="hearts absolute inset-0 overflow-hidden pointer-events-none">
     <span style="left:5%; animation-delay:0s;">✨</span>
     <span style="left:25%; animation-delay:2s;">💖</span>
-    <span style="left:45%; animation-delay:5s;">💗</span>
-    <span style="left:65%; animation-delay:1s;">🌸</span>
-    <span style="left:85%; animation-delay:3s;">✨</span>
+    <span style="left:75%; animation-delay:1s;">🌸</span>
+    <span style="left:90%; animation-delay:3s;">✨</span>
   </div>
 
-  <div class="card-container" onclick="this.classList.toggle('flipped')">
-    <div class="card-inner">
+  <div class="screen-center">
+    <div class="card-container" id="mainCard">
+      <div class="card-inner" onclick="toggleFlip()">
 
-      <div class="card-front premium-glass border-anim flex flex-col items-center justify-center text-center">
-        <div class="text-7xl mb-6 filter drop-shadow-lg">🎁</div>
-        <h1 class="cursive text-5xl glassy-text mb-2">Happy Birthday</h1>
-        <h2 class="text-2xl font-light tracking-[0.4em] text-white/70 uppercase mb-10">Jannat</h2>
-        
-        <div class="px-8 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-[11px] uppercase tracking-[0.3em] text-pink-300/80 animate-pulse">
-          Click to Open
-        </div>
-      </div>
-
-      <div class="card-back premium-glass border-anim flex flex-col">
-        <h3 class="cursive text-4xl glassy-text mb-6">Hey Jannat,</h3>
-        
-        <div class="space-y-5 text-[15px] leading-relaxed text-gray-200/90 font-light">
-          <p>Happy Birthday! 🎂✨</p>
+        <div class="card-front premium-glass items-center justify-center text-center">
+          <div class="text-7xl mb-6 drop-shadow-2xl">🎁</div>
+          <h1 class="cursive text-5xl glassy-text mb-2">Happy Birthday</h1>
+          <h2 class="text-2xl font-light tracking-[0.4em] text-white/70 uppercase mb-10">Jannat</h2>
           
-          <p>Aajke honestly ekta kotha boltei hobe... Ami Instagram-e tomake dekhlam — pura random bhabei... kintu chokh ta ekbar giye aar sorate parlam na 😅</p>
-          
-          <p class="text-pink-400 font-semibold italic glassy-text text-[17px]">Karon tumi onek sundor... like seriously 💖</p>
-          
-          <p>Don’t worry, eta awkward na... just ekta honest compliment 😊 Hope your day is as beautiful as you are!</p>
-        </div>
-
-        <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-end">
-          <div>
-            <p class="text-[9px] text-white/30 uppercase tracking-[0.2em]">Always,</p>
-            <p class="cursive text-3xl glassy-text">Fahi</p>
+          <div class="px-8 py-3 rounded-full border border-white/10 bg-white/5 text-[11px] uppercase tracking-[0.3em] text-pink-300 animate-pulse">
+            Click to Open
           </div>
-          <div class="text-4xl filter saturate-150">💋</div>
         </div>
-      </div>
 
+        <div class="card-back premium-glass">
+          <h3 class="cursive text-4xl glassy-text mb-6">Hey Jannat,</h3>
+          
+          <div class="space-y-4 text-[14px] leading-relaxed text-gray-200/90 font-light">
+            <p>Happy Birthday! 🎂✨</p>
+            <p>Aajke honestly ekta kotha boltei hobe... Instagram-e tomake dekhlam — pura random bhabei... kintu chokh ta ekbar giye aar sorate parlam na 😅</p>
+            <p class="text-pink-400 font-semibold italic glassy-text text-[16px]">Karon tumi onek sundor... like seriously 💖</p>
+            <p>Hope your special day is as amazing as you are!</p>
+          </div>
+
+          <a href="mailto:muntasimf36@gmail.com?subject=Thank You!&body=Hey Fahim, thank you for the card!" class="email-btn" onclick="event.stopPropagation()">
+            Say Thanks to Fahim ✨
+          </a>
+
+          <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-end">
+            <div>
+              <p class="text-[9px] text-white/30 uppercase tracking-[0.2em]">Always,</p>
+              <p class="cursive text-3xl glassy-text">Fahim</p>
+            </div>
+            <div class="text-4xl">💋</div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
+
+  <script>
+    function toggleFlip() {
+      document.getElementById('mainCard').classList.toggle('flipped');
+    }
+  </script>
 
 </body>
 </html>
